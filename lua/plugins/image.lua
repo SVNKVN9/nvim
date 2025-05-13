@@ -1,5 +1,5 @@
 require('image').setup {
-  backend = 'kitty', -- เปลี่ยนเป็น 'wezterm' ถ้าใช้ wezterm
+  backend = 'kitty', 
   integrations = {
     markdown = {
       enabled = true,

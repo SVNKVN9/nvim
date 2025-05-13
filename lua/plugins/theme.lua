@@ -6,5 +6,4 @@ require('tokyonight').setup({
   },
 })
 
--- ตั้งค่า colorscheme
 vim.cmd("colorscheme tokyonight")
