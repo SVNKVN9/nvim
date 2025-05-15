@@ -79,4 +79,11 @@ require('plugins/nvim-cmp')
 
 require("nvim-autopairs").setup {}
 
-require("oil").setup {}
+require("oil").setup({
+  columns = {
+    "icon",
+    "size",
+    "mtime",
+  },
+  skip_confirm_for_simple_edits = true,
+})
