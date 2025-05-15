@@ -61,6 +61,10 @@ vim.cmd([[
 
   Plug 'windwp/nvim-autopairs' 
 
+  Plug 'Exafunction/codeium.vim'
+
+  Plug 'stevearc/oil.nvim'
+
   call plug#end()
 ]])
 
@@ -74,3 +78,5 @@ require('plugins/nvim-cmp')
 -- refactor Later
 
 require("nvim-autopairs").setup {}
+
+require("oil").setup {}
