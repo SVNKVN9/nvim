@@ -65,6 +65,8 @@ vim.cmd([[
 
   Plug 'stevearc/oil.nvim'
 
+  Plug 'prisma/vim-prisma'
+
   call plug#end()
 ]])
 
@@ -87,3 +89,4 @@ require("oil").setup({
   },
   skip_confirm_for_simple_edits = true,
 })
+
