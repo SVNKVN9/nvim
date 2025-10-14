@@ -67,6 +67,9 @@ vim.cmd([[
 
   Plug 'prisma/vim-prisma'
 
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'windwp/nvim-ts-autotag'
+
   call plug#end()
 ]])
 
@@ -90,3 +93,23 @@ require("oil").setup({
   skip_confirm_for_simple_edits = true,
 })
 
+vim.keymap.set("n", "<leader>f", function()
+    require("conform").format({ async = true, lsp_fallback = true })
+end, { desc = "Format with Conform" })
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "php", "html", "javascript", "css", "lua", "blade" }, 
+
+  highlight = {
+    enable = true,           
+    additional_vim_regex_highlighting = false,
+  },
+
+  autotag = {
+    enable = true,           
+  },
+
+  indent = {
+    enable = true,        
+  },
+}

@@ -1,9 +1,4 @@
 require("conform").setup({
-    format_on_save = {
-        timeout_ms = 3000,
-        lsp_fallback = true,
-    },
-
     formatters_by_ft = {
         javascript = { "prettier" },
         typescript = { "prettier" },
@@ -13,6 +8,7 @@ require("conform").setup({
         html = { "prettier" },
         css = { "prettier" },
         solidity = { "prettier_solidity" },
+        php = { "php_cs_fixer" },
     },
 
     formatters = {
@@ -34,7 +30,16 @@ require("conform").setup({
             stdin = true,
             timeout = 3000,
         },
-    },
 
-  
+        php_cs_fixer = {  -- <-- เพิ่ม formatter PHP
+            command = "php-cs-fixer",
+            args = {
+                "fix",
+                "--using-cache=no",
+                "--quiet",
+                "$FILENAME"
+            },
+            stdin = false,  -- php-cs-fixer อ่านไฟล์ตรง ๆ
+        },
+    },
 })

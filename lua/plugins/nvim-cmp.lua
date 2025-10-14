@@ -33,7 +33,7 @@ lspconfig.tailwindcss.setup({
 })
 
 lspconfig.rust_analyzer.setup({
-  cmd = { "/home/sunkung-ml4w/.local/bin/rust-analyzer" },
+  cmd = { "/home/sunkung/.cargo/bin/rust-analyzer" },
   settings = {
     ["rust-analyzer"] = {
       cargo = { allFeatures = true },
@@ -61,3 +61,28 @@ lspconfig.solidity_ls.setup({
         }
     }
 })
+
+lspconfig.gopls.setup({
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod" },
+    root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+        gopls = {
+          analyses = {
+            unusedparams = true,
+            shadow = true,
+          },
+          staticcheck = true,
+        },
+    },
+})
+
+lspconfig.intelephense.setup{
+    settings = {
+        intelephense = {
+            files = {
+                maxSize = 5000000;
+            };
+        };
+    };
+}
