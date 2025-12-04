@@ -26,6 +26,10 @@ lspconfig.ts_ls.setup({
     end
 })
 
+-- lspconfig.volar.setup{
+--   filetypes = { "typescript", "javascript", "vue" }
+-- }
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 lspconfig.tailwindcss.setup({
@@ -86,3 +90,5 @@ lspconfig.intelephense.setup{
         };
     };
 }
+
+

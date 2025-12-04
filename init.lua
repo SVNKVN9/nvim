@@ -36,6 +36,14 @@ vim.g.autoformat = true
 
 vim.o.termguicolors = true
 
+vim.keymap.set("n", "tn", ":tabnew<CR>", { noremap = true, silent = true })
+
+vim.keymap.set("n", "tc", ":tabclose<CR>", { noremap = true, silent = true })
+
+vim.keymap.set("n", "tl", "gt", { noremap = true, silent = true })
+
+vim.keymap.set("n", "th", "gT", { noremap = true, silent = true })
+
 vim.cmd([[
   call plug#begin('~/.local/share/nvim/plugged')
 
