@@ -19,76 +19,127 @@ cmp.setup({
   },
 })
 
-local lspconfig = require('lspconfig')
-lspconfig.ts_ls.setup({
-    on_attach = function(client, bufnr)
-        vim.keymap.set('n', 'Gd', vim.lsp.buf.definition, { noremap = true, silent = true })
-    end
-})
-
--- lspconfig.volar.setup{
---   filetypes = { "typescript", "javascript", "vue" }
--- }
-
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lspconfig.tailwindcss.setup({
-    capabilities = capabilities,
-})
-
-lspconfig.rust_analyzer.setup({
-  cmd = { "/home/sunkung/.cargo/bin/rust-analyzer" },
-  settings = {
-    ["rust-analyzer"] = {
-      cargo = { allFeatures = true },
-    }
-  }
-})
-
-lspconfig.prismals.setup({
-  filetypes = { "prisma" },
-})
-
-lspconfig.solidity_ls.setup({
-    cmd = { "nomicfoundation-solidity-language-server", "--stdio" }, 
+-- TypeScript/JavaScript
+vim.lsp.config.ts_ls = {
+    cmd = { 'typescript-language-server', '--stdio' },
+    filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    root_markers = { 'package.json', 'tsconfig.json' },
     capabilities = capabilities,
     on_attach = function(client, bufnr)
         vim.keymap.set('n', 'Gd', vim.lsp.buf.definition, { noremap = true, silent = true, buffer = bufnr })
     end,
-    filetypes = { "solidity" },
-    settings = {
-        solidity = {
-            includePath = "node_modules",
-            remapping = {
-                ["@openzeppelin/"] = "node_modules/@openzeppelin/"
-            }
-        }
-    }
-})
-
-lspconfig.gopls.setup({
-    cmd = { "gopls" },
-    filetypes = { "go", "gomod" },
-    root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
-    settings = {
-        gopls = {
-          analyses = {
-            unusedparams = true,
-            shadow = true,
-          },
-          staticcheck = true,
-        },
-    },
-})
-
-lspconfig.intelephense.setup{
-    settings = {
-        intelephense = {
-            files = {
-                maxSize = 5000000;
-            };
-        };
-    };
 }
 
+-- Tailwind CSS
+vim.lsp.config.tailwindcss = {
+    cmd = { 'tailwindcss-language-server', '--stdio' },
+    filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'php' },
+    root_markers = { 'tailwind.config.js', 'tailwind.config.ts' },
+    capabilities = capabilities,
+}
 
+-- Rust
+vim.lsp.config.rust_analyzer = {
+    cmd = { '/usr/bin/rust-analyzer' },
+    filetypes = { 'rust' },
+    root_markers = { 'Cargo.toml' },
+    settings = {
+        ['rust-analyzer'] = {
+            cargo = { allFeatures = true },
+        }
+    },
+    capabilities = capabilities,
+}
+
+-- Prisma
+vim.lsp.config.prismals = {
+    cmd = { 'prisma-language-server', '--stdio' },
+    filetypes = { 'prisma' },
+    root_markers = { 'schema.prisma' },
+    capabilities = capabilities,
+}
+
+-- Solidity
+vim.lsp.config.solidity_ls = {
+    cmd = { 'nomicfoundation-solidity-language-server', '--stdio' },
+    filetypes = { 'solidity' },
+    root_markers = { 'hardhat.config.js', 'foundry.toml' },
+    settings = {
+        solidity = {
+            includePath = 'node_modules',
+            remapping = {
+                ['@openzeppelin/'] = 'node_modules/@openzeppelin/'
+            }
+        }
+    },
+    capabilities = capabilities,
+}
+
+-- Go
+vim.lsp.config.gopls = {
+    cmd = { 'gopls' },
+    filetypes = { 'go', 'gomod' },
+    root_markers = { 'go.work', 'go.mod', '.git' },
+    settings = {
+        gopls = {
+            analyses = {
+                unusedparams = true,
+                shadow = true,
+            },
+            staticcheck = true,
+        },
+    },
+    capabilities = capabilities,
+}
+
+-- PHP + WordPress
+vim.lsp.config.intelephense = {
+    cmd = { 'intelephense', '--stdio' },
+    filetypes = { 'php' },
+    root_markers = { 'composer.json', 'wp-config.php', 'wp-content', '.git', 'functions.php', 'style.css' },
+    settings = {
+        intelephense = {
+            stubs = {
+                "apache", "bcmath", "bz2", "calendar", "com_dotnet", "Core",
+                "curl", "date", "dba", "dom", "enchant", "exif", "fileinfo",
+                "filter", "fpm", "ftp", "gd", "gettext", "gmp", "hash", "iconv",
+                "imap", "intl", "json", "ldap", "libxml", "mbstring", "meta",
+                "mysqli", "oci8", "odbc", "openssl", "pcntl", "pcre", "PDO",
+                "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql", "Phar", "posix",
+                "readline", "Reflection", "regex", "session", "shmop", "SimpleXML",
+                "snmp", "soap", "sockets", "sodium", "SPL", "sqlite3", "standard",
+                "superglobals", "sysvmsg", "sysvsem", "sysvshm", "tidy", "tokenizer",
+                "xml", "xmlreader", "xmlrpc", "xmlwriter", "xsl", "Zend OPcache",
+                "zip", "zlib",
+                -- WordPress stubs
+                "wordpress", "wordpress-globals", "wp-cli", "woocommerce"
+            },
+            files = {
+                maxSize = 5000000,
+            },
+            environment = {
+                includePaths = {
+                    vim.fn.expand("~/.config/composer/vendor/php-stubs/wordpress-stubs"),
+                    vim.fn.expand("~/.config/composer/vendor/php-stubs/woocommerce-stubs"),
+                },
+            },
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+    capabilities = capabilities,
+}
+
+-- เปิดใช้งาน LSP ทั้งหมด
+vim.lsp.enable({
+    'ts_ls',
+    'tailwindcss',
+    'rust_analyzer',
+    'prismals',
+    'solidity_ls',
+    'gopls',
+    'intelephense',
+})

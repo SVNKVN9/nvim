@@ -105,19 +105,22 @@ vim.keymap.set("n", "<leader>f", function()
     require("conform").format({ async = true, lsp_fallback = true })
 end, { desc = "Format with Conform" })
 
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "php", "html", "javascript", "css", "lua", "blade" }, 
+local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
+if not status_ok then
+  vim.notify("nvim-treesitter not installed", vim.log.levels.WARN)
+  return
+end
 
+configs.setup({
+  ensure_installed = { "php", "html", "javascript", "css", "lua" }, 
   highlight = {
     enable = true,           
     additional_vim_regex_highlighting = false,
   },
-
   autotag = {
     enable = true,           
   },
-
   indent = {
     enable = true,        
   },
-}
+})
