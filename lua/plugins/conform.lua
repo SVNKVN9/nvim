@@ -7,22 +7,26 @@ require("conform").setup({
         json = { "prettier" },
         html = { "prettier" },
         css = { "prettier" },
+        rust = { "rustfmt" },
         solidity = { "prettier_solidity" },
         php = { "php_cs_fixer" },
+        python = { "black" },
     },
 
     formatters = {
         prettier = {
-            command = "prettier",
+            command = "bun",
             args = {
+                vim.fn.expand("$HOME/.bun/install/global/node_modules/prettier/bin/prettier.cjs"),
                 "--config", vim.fn.expand("$HOME/.config/prettier/.prettierrc"),
                 "--stdin-filepath", "$FILENAME",
             },
         },
-        
+
         prettier_solidity = {
-            command = "prettier",
+            command = "bun",
             args = {
+                vim.fn.expand("$HOME/.bun/install/global/node_modules/prettier/bin/prettier.cjs"),
                 "--config", vim.fn.expand("$HOME/.config/prettier/.prettierrc"),
                 "--plugin", "prettier-plugin-solidity",
                 "--stdin-filepath", "$FILENAME"

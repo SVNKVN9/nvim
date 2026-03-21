@@ -112,7 +112,7 @@ if not status_ok then
 end
 
 configs.setup({
-  ensure_installed = { "php", "html", "javascript", "css", "lua" }, 
+  ensure_installed = { "php", "html", "javascript", "css", "lua", "rust", "toml", "python" },
   highlight = {
     enable = true,           
     additional_vim_regex_highlighting = false,

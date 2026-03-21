@@ -42,12 +42,18 @@ vim.lsp.config.tailwindcss = {
 
 -- Rust
 vim.lsp.config.rust_analyzer = {
-    cmd = { '/usr/bin/rust-analyzer' },
+    cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
     filetypes = { 'rust' },
     root_markers = { 'Cargo.toml' },
     settings = {
         ['rust-analyzer'] = {
-            cargo = { allFeatures = true },
+            cargo = {
+                allFeatures = true,
+                sysroot = '/var/lib/nix-homes/work/.rustup/toolchains/stable-x86_64-unknown-linux-gnu',
+            },
+            checkOnSave = true,
+            check = { command = 'clippy' },
+            diagnostics = { enable = true },
         }
     },
     capabilities = capabilities,
@@ -133,6 +139,35 @@ vim.lsp.config.intelephense = {
     capabilities = capabilities,
 }
 
+-- Python
+vim.lsp.config.pyright = {
+    cmd = { 'pyright-langserver', '--stdio' },
+    filetypes = { 'python' },
+    root_markers = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', '.git' },
+    settings = {
+        python = {
+            analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'workspace',
+            },
+        },
+    },
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+        local root = client.config.root_dir or vim.fn.getcwd()
+        -- หา venv ใน project root
+        for _, venv_name in ipairs({ 'venv', '.venv', 'env', '.env' }) do
+            local python = root .. '/' .. venv_name .. '/bin/python'
+            if vim.fn.filereadable(python) == 1 then
+                client.config.settings.python.pythonPath = python
+                client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+                break
+            end
+        end
+    end,
+}
+
 -- เปิดใช้งาน LSP ทั้งหมด
 vim.lsp.enable({
     'ts_ls',
@@ -142,4 +177,5 @@ vim.lsp.enable({
     'solidity_ls',
     'gopls',
     'intelephense',
+    'pyright',
 })
