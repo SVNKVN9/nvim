@@ -6,7 +6,16 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      local ok, minuet_vt = pcall(require, 'minuet.virtualtext')
+      if ok and minuet_vt.action.is_visible() then
+        minuet_vt.action.accept()
+      elseif cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
     ['<S-Tab>'] = cmp.mapping.select_prev_item(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<C-Space>'] = cmp.mapping.complete(),
@@ -168,6 +177,17 @@ vim.lsp.config.pyright = {
     end,
 }
 
+-- Kotlin
+vim.lsp.config.kotlin_language_server = {
+    cmd = { 'kotlin-language-server' },
+    filetypes = { 'kotlin' },
+    root_markers = { 'settings.gradle', 'settings.gradle.kts', 'build.gradle', 'build.gradle.kts', 'pom.xml', '.git' },
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+        vim.keymap.set('n', 'Gd', vim.lsp.buf.definition, { noremap = true, silent = true, buffer = bufnr })
+    end,
+}
+
 -- เปิดใช้งาน LSP ทั้งหมด
 vim.lsp.enable({
     'ts_ls',
@@ -178,4 +198,5 @@ vim.lsp.enable({
     'gopls',
     'intelephense',
     'pyright',
+    'kotlin_language_server',
 })

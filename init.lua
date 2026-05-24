@@ -69,7 +69,7 @@ vim.cmd([[
 
   Plug 'windwp/nvim-autopairs' 
 
-  Plug 'Exafunction/codeium.vim'
+  "Plug 'milanglacier/minuet-ai.nvim'
 
   Plug 'stevearc/oil.nvim'
 
@@ -87,6 +87,7 @@ require('plugins/image')
 require('plugins/theme')
 require('plugins/telescope')
 require('plugins/nvim-cmp')
+-- require('plugins/minuet')
 
 -- refactor Later
 
@@ -112,7 +113,7 @@ if not status_ok then
 end
 
 configs.setup({
-  ensure_installed = { "php", "html", "javascript", "css", "lua", "rust", "toml", "python" },
+  ensure_installed = { "php", "html", "javascript", "css", "lua", "rust", "toml", "python", "kotlin" },
   highlight = {
     enable = true,           
     additional_vim_regex_highlighting = false,
@@ -124,3 +125,4 @@ configs.setup({
     enable = true,        
   },
 })
+

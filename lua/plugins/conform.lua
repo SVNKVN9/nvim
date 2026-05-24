@@ -11,6 +11,7 @@ require("conform").setup({
         solidity = { "prettier_solidity" },
         php = { "php_cs_fixer" },
         python = { "black" },
+        kotlin = { "ktlint" },
     },
 
     formatters = {
